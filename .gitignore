@@ -134,6 +134,9 @@ dist
 # Serverless Webpack directories
 .webpack/
 
+# MySQL runtime files (never commit)
+mysql_data/
+
 # Optional stylelint cache
 
 # SvelteKit build / generate output

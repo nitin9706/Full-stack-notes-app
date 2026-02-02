@@ -1,0 +1,46 @@
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: notes_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    volumes:
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./mysql_data:/var/lib/mysql
+    networks:
+      - full-stack-net
+    restart: always
+
+  backend:
+    build: ./server
+    container_name: backend_container
+    environment:
+      DB_HOST: mysql
+      DB_USER: admin
+      DB_PASSWORD: admin
+      DB_NAME: notes_db
+    depends_on:
+      - mysql
+    ports:
+      - "4000:4000"
+    networks:
+      - full-stack-net
+    restart: always
+
+  frontend:
+    build: ./client
+    container_name: frontend_container
+    ports:
+      - "5174:3000"
+    depends_on:
+      - backend
+    networks:
+      - full-stack-net
+    restart: always
+
+networks:
+  full-stack-net:
+    driver: bridge
