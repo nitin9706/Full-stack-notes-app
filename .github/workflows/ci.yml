@@ -1,4 +1,3 @@
-# this is only a ci file for the full stack app
 name: CI FOR THIS FULL STACK NOTES APP
 
 on:
@@ -11,14 +10,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup of Node
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
           cache-dependency-path: client/package-lock.json
 
-      - name: frontend build
+      - name: Frontend build
         working-directory: client
         run: |
           npm install
@@ -29,17 +28,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: setup Node for backend
+      - name: Setup Node for backend
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
           cache-dependency-path: server/package-lock.json
 
-      - name: server setup
+      - name: Backend build
         working-directory: server
         run: |
           npm install
           npm run build
-
-# currently nothing for sql but we can uses it as service
