@@ -1,0 +1,45 @@
+# this is only a ci file for the full stack app
+name: CI FOR THIS FULL STACK NOTES APP
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  client:
+    runs-on: ubuntu_latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup of Node
+        uses: actions/node@v4
+        with:
+          node_version: 22
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+
+      - name: frontend build
+        working-directory: client
+        run: |
+          npm install
+          npm run build
+
+  backend:
+    runs-on: ubuntu_latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: setup Node for backend
+        uses: actions/node@v4
+        with:
+          node_version: 22
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+
+      - name: server setup
+        working-directory: server
+        run: |
+          npm install
+          npm run build
+
+# currently nothing for sql but we can uses it as service
