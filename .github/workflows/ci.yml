@@ -39,3 +39,5 @@ jobs:
         working-directory: server
         run: |
           npm install
+
+# i will make it with docker also
