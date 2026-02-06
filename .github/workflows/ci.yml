@@ -39,4 +39,4 @@ jobs:
         working-directory: server
         run: |
           npm install
-          npm run test
+          npm test
