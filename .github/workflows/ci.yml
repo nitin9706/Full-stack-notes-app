@@ -7,14 +7,14 @@ on:
 
 jobs:
   client:
-    runs-on: ubuntu_latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - name: Setup of Node
-        uses: actions/node@v4
+        uses: actions/setup-node@v4
         with:
-          node_version: 22
+          node-version: 22
           cache: npm
           cache-dependency-path: client/package-lock.json
 
@@ -25,14 +25,14 @@ jobs:
           npm run build
 
   backend:
-    runs-on: ubuntu_latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - name: setup Node for backend
-        uses: actions/node@v4
+        uses: actions/setup-node@v4
         with:
-          node_version: 22
+          node-version: 22
           cache: npm
           cache-dependency-path: server/package-lock.json
 
