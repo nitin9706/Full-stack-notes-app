@@ -1,34 +1,41 @@
-# making the ci with docker also
-
-name: CI With Docker/Docker-Compose
+# CI pipeline using Docker & Docker Compose
+name: CI with Docker Compose
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
 
 jobs:
   docker-ci:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      # Step 1: Checkout repository code
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: building images with docker compose
+      # Step 2: Build all Docker images defined in docker-compose.yml
+      - name: Build Docker images
         run: docker compose build
 
-      - name: running the docker compose
+      # Step 3: Start all containers in detached mode
+      - name: Start containers
         run: docker compose up -d
 
-      - name: waiting for db because it takes time
+      # Step 4: Wait for database to be ready
+      - name: Wait for database
         run: sleep 20
 
-      - name: running test for frontend
+      # Step 5: Run frontend tests inside client container
+      - name: Run frontend tests
         run: docker compose exec -T client npm test
 
-      - name: running test for backend
+      # Step 6: Run backend tests inside server container
+      - name: Run backend tests
         run: docker compose exec -T server npm test
 
-      - name: taking down the compose
+      # Step 7: Stop and remove containers (always runs)
+      - name: Stop containers
         if: always()
         run: docker compose down
