@@ -31,9 +31,15 @@ jobs:
       - name: Run frontend tests
         run: docker compose exec -T client npm test
 
+      - name: logs file checks if fails
+        run: docker compose logs client
+
       # Step 6: Run backend tests inside server container
       - name: Run backend tests
         run: docker compose exec -T server npm test
+
+      - name: logs of backend
+        run: docker compose logs server
 
       # Step 7: Stop and remove containers (always runs)
       - name: Stop containers
