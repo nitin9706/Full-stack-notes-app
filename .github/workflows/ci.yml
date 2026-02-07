@@ -45,3 +45,4 @@ jobs:
       - name: Stop containers
         if: always()
         run: docker compose down
+#this is for to run the ci
