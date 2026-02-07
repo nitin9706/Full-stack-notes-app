@@ -14,7 +14,7 @@ services:
       - full-stack-net
     restart: always
 
-  backend:
+  server:
     build: ./server
     container_name: backend_container
     environment:
@@ -30,7 +30,7 @@ services:
       - full-stack-net
     restart: always
 
-  frontend:
+  client:
     build: ./client
     container_name: frontend_container
     ports:
