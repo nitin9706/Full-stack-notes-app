@@ -36,7 +36,7 @@ services:
     ports:
       - "5174:3000"
     depends_on:
-      - backend
+      - client
     networks:
       - full-stack-net
     restart: always
