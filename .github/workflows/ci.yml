@@ -1,43 +1,34 @@
-name: CI FOR THIS FULL STACK NOTES APP
+# making the ci with docker also
+
+name: CI With Docker/Docker-Compose
 
 on:
   push:
     branches: ["main"]
 
 jobs:
-  client:
+  docker-ci:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: client/package-lock.json
+      - name: building images with docker compose
+        run: docker compose build
 
-      - name: Frontend build
-        working-directory: client
-        run: |
-          npm install
-          npm run build
+      - name: running the docker compose
+        run: docker compose up -d
 
-  backend:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+      - name: waiting for db because it takes time
+        run: sleep 20
 
-      - name: Setup Node for backend
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: server/package-lock.json
+      - name: running test for frontend
+        run: docker compose exec -T client npm test
 
-      - name: Backend build
-        working-directory: server
-        run: |
-          npm install
+      - name: running test for backend
+        run: docker compose exec -T server npm test
 
-# i will make it with docker also
+      - name: taking down the compose
+        if: always()
+        run: docker compose down
